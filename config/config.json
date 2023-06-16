@@ -4,7 +4,8 @@
     "password": "DoI1nV2zpR1hkQeGnOTu",
     "database": "railway",
     "host": "containers-us-west-69.railway.app",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "port": 7320
   },
   "test": {
     "username": "root",
