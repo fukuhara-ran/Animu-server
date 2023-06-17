@@ -5,7 +5,6 @@ module.exports = {
     await queryInterface.createTable('comments', {
       commentId: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
         unique: true,
         type: Sequelize.UUID,

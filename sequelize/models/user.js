@@ -10,16 +10,63 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      this.account = user.belongsTo(models.account, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        foreignKey: {
+          name: 'accountId',
+          type: DataTypes.UUID,
+          allowNull: false
+        }
+      })
+
+      this.comment = user.hasMany(models.comment, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCASE',
+        foreignKey: {
+          name: 'userId',
+          type: DataTypes.UUID,
+          allowNull: false
+        }
+      })
     }
   }
   user.init({
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: DataTypes.STRING
+    userId: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+      primaryKey: true,
+      unique: true,
+    },
+    name: {
+      type: DataTypes.STRING(32),
+      allowNull: true,
+      unique: false,
+    },
+    gender: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      unique: false,
+    },
+    about: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      unique: false,
+    },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+    }
   }, {
     sequelize,
     modelName: 'user',
+    tableName: 'users',
+    underscored: true
   });
   return user;
 };
