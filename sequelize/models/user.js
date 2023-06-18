@@ -16,17 +16,17 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: {
           name: 'accountId',
           type: DataTypes.UUID,
-          allowNull: false
+          allowNull: true
         }
       })
 
       this.comment = user.hasMany(models.comment, {
         onDelete: 'CASCADE',
-        onUpdate: 'CASCASE',
+        onUpdate: 'CASCADE',
         foreignKey: {
           name: 'userId',
           type: DataTypes.UUID,
-          allowNull: false
+          allowNull: true
         }
       })
     }

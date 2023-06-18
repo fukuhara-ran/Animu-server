@@ -4,6 +4,7 @@ const mysql = require("mysql2");
 const app = express();
 const port = 3000;
 const accountRoutes = require("./routes/accountRoutes");
+const commntRoutes = require("./routes/commentRoutes")
 
 const sequelize = new Sequelize("railway", "root", "DoI1nV2zpR1hkQeGnOTu", {
   host: "containers-us-west-69.railway.app",
@@ -12,7 +13,7 @@ const sequelize = new Sequelize("railway", "root", "DoI1nV2zpR1hkQeGnOTu", {
 });
 
 app.use(express.json());
-app.use("/account", accountRoutes);
+app.use("/server", accountRoutes);
 
 // app.get('/', (req, res) => {
 //     res.send('Hello World! Hello Eperibodi');

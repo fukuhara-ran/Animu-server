@@ -1,12 +1,17 @@
 const express = require('express');
-const sequelize = require('sequelize');
-const Account = require('../../sequelize/models')
+const { Sequelize } = require("sequelize");
+const { account } = require('../../sequelize/models')
 const router = express.Router();
+const sequelize = new Sequelize("railway", "root", "DoI1nV2zpR1hkQeGnOTu", {
+  host: "containers-us-west-69.railway.app",
+  port: 7320,
+  dialect: "mysql",
+});
 
 // GET /account - Get account details
 router.get('/account', async (req, res) => {
   try {
-    const accounts = await Account.findAll(); // Retrieve all accounts from the database
+    const accounts = await account.findAll(); // Retrieve all accounts from the database
     res.json(accounts);
   } catch (error) {
     console.error(error);
@@ -16,9 +21,9 @@ router.get('/account', async (req, res) => {
 
 // POST /account - Create a new account
 router.post('/post', async (req, res) => {
-  const { username, email, password } = req.body;
+  const { accountId, username, email, password, createdAt, updatedAt } = req.body;
   try {
-    const newAccount = await Account.create({ username, email, password }); // Create a new account in the database
+    const newAccount = await account.create({ accountId, username, email, password, createdAt, updatedAt }); // Create a new account in the database
     res.json(newAccount);
   } catch (error) {
     console.error(error);
@@ -32,7 +37,7 @@ router.put('/:id', async (req, res) => {
   const { username, email, password } = req.body;
 
   try {
-    const account = await Account.findByPk(accountId); // Find the account by ID
+    const account = await account.findByPk(accountId); // Find the account by ID
     if (!account) {
       return res.status(404).json({ error: 'Account not found' });
     }
@@ -55,7 +60,7 @@ router.delete('/:id', async (req, res) => {
   const accountId = req.params.id;
 
   try {
-    const account = await Account.findByPk(accountId); // Find the account by ID
+    const account = await account.findByPk(accountId); // Find the account by ID
     if (!account) {
       return res.status(404).json({ error: 'Account not found' });
     }

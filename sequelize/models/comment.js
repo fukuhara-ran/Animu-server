@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.user = comment.hasOne(models.user, {
+      this.user = comment.belongsTo(models.user, {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
         foreignKey: {
@@ -23,12 +23,31 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   comment.init({
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: DataTypes.STRING
+    commentId: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: true,
+      primaryKey: true,
+      unique: true,
+    },
+    content: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      unique: true,
+    },
+    createdAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+    },
+    updatedAt: {
+      allowNull: false,
+      type: DataTypes.DATE,
+    }
   }, {
     sequelize,
-    modelName: 'comment',
+    modelName: "comment",
+    tableName: "comments",
+    underscored: true
   });
   return comment;
 };

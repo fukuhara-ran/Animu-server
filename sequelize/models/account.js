@@ -54,8 +54,8 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'account',
-    tableName: 'accounts',
+    modelName: "account",
+    tableName: "accounts",
     underscored: true
   });
   return account;
