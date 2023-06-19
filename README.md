@@ -5,14 +5,14 @@
 https://www.figma.com/file/iwFUTLsGjVFpEqDXpuS1e3/Untitled?type=design&node-id=0%3A1&t=GWykl5bjYMA6agXk-1
 
 ## FrontEnd Framework utils :
-### -Vite
-### -React
-### -Vanilla CSS
+#### -Vite
+#### -React
+#### -Vanilla CSS
 
 ## BackEnd Framework utils :
-### -Express JS
-### -MySQL
-### -ORM Sequelize
+#### -Express JS
+#### -MySQL
+#### -ORM Sequelize
 
 ## Anggota kelompok :
 |**No**| **Nama** | **NIM** | **Contribution** |
