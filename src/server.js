@@ -1,23 +1,27 @@
 const { Sequelize } = require("sequelize");
 const express = require("express");
-const mysql = require("mysql2");
+const cookieParser = require("cookie-parser");
 const app = express();
 const port = 3000;
-const accountRoutes = require("./routes/accountRoutes");
-const commntRoutes = require("./routes/commentRoutes")
+const public = require("./routes/public")
+const { verifyToken } = require("./middleware/verifyToken");
+const config = require("../config/config.json");
 
-const sequelize = new Sequelize("animu_db", "animu_db", "localhost", {
-  host: "localhost",
-  port: 3306,
-  dialect: "mysql",
-});
+const sequelize = new Sequelize(config.development);
 
 app.use(express.json());
-app.use("/server", accountRoutes);
+app.use(cookieParser());
 
-// app.get('/', (req, res) => {
-//     res.send('Hello World! Hello Eperibodi');
-// });
+app.get("/test", (req, res) => {
+  res.cookie("token",{
+    maxAge: 360000,
+  });
+  console.log("Cookies: ", req.cookies);
+  res.send(req.cookies);
+});
+
+app.use("/", public);
+app.use(verifyToken);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

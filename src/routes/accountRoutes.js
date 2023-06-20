@@ -2,11 +2,7 @@ const express = require('express');
 const { Sequelize } = require("sequelize");
 const { account } = require('../../sequelize/models')
 const router = express.Router();
-const sequelize = new Sequelize("railway", "root", "DoI1nV2zpR1hkQeGnOTu", {
-  host: "containers-us-west-69.railway.app",
-  port: 7320,
-  dialect: "mysql",
-});
+const config = require("../../config/config.json");
 
 // GET /account - Get account details
 router.get('/account', async (req, res) => {

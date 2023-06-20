@@ -1,7 +1,7 @@
 const { Sequelize, Transaction } = require("sequelize");
-const { account, user } = require("../../sequelize/models"); // Assuming you have defined the Account model
-// const jwt = require("jsonwebtoken");
-// const bcrypt = require("bcrypt");
+const { account, user } = require("../../sequelize/models");
+const config = require("../../config/config.json");
+const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   const sequelize = new Sequelize(config.development);
@@ -97,7 +97,7 @@ const login = async (req, res) => {
 
     console.log(account);
 
-    const token = await jwt.sign(
+    const token = jwt.sign(
       { payload: { userId: account.user.userId } },
       "M1bSh0CA0W"
     );
