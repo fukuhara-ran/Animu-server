@@ -23,7 +23,7 @@ router.get('/account', async (req, res) => {
 router.post('/account/post', async (req, res) => {
   const { accountId, username, email, password, createdAt, updatedAt } = req.body;
   try {
-    const newAccount = await account.create({ accountId, username, email, password, createdAt, updatedAt }); // Create a new account in the database
+    const newAccount = await account.create({ username, email, password}); // Create a new account in the database
     res.json(newAccount);
   } catch (error) {
     console.error(error);

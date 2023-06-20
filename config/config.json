@@ -1,11 +1,11 @@
 {
   "development": {
-    "username": "root",
+    "username": "animu_db",
     "password": "DoI1nV2zpR1hkQeGnOTu",
-    "database": "railway",
-    "host": "containers-us-west-69.railway.app",
+    "database": "animu_db",
+    "host": "localhost",
     "dialect": "mysql",
-    "port": 7320
+    "port": 3306
   },
   "test": {
     "username": "root",

@@ -6,9 +6,9 @@ const port = 3000;
 const accountRoutes = require("./routes/accountRoutes");
 const commntRoutes = require("./routes/commentRoutes")
 
-const sequelize = new Sequelize("railway", "root", "DoI1nV2zpR1hkQeGnOTu", {
-  host: "containers-us-west-69.railway.app",
-  port: 7320,
+const sequelize = new Sequelize("animu_db", "animu_db", "localhost", {
+  host: "localhost",
+  port: 3306,
   dialect: "mysql",
 });
 

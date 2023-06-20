@@ -3,7 +3,7 @@ const { account, user } = require("../../sequelize/models"); // Assuming you hav
 // const jwt = require("jsonwebtoken");
 // const bcrypt = require("bcrypt");
 
-const signup = async (req, res) => {
+const register = async (req, res) => {
   const sequelize = new Sequelize(config.development);
 
   try {
@@ -12,7 +12,7 @@ const signup = async (req, res) => {
     // create new user
     const newAccount = await sequelize.transaction(
       { isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED },
-      async (t) => {
+      async () => {
         return await account.create(
           {
             username: username,
@@ -22,7 +22,7 @@ const signup = async (req, res) => {
               name: username,
             },
           },
-          { transaction: t, include: user }
+          { include: user }
         );
       }
     );
@@ -30,7 +30,7 @@ const signup = async (req, res) => {
     const response = {
       code: 201,
       status: "Created",
-      message: "User has been successfully created",
+      message: "Account created!",
     };
 
     return res.status(201).json(response);
@@ -50,9 +50,7 @@ const signup = async (req, res) => {
   }
 };
 
-module.exports = { signup };
-
-const signin = async (req, res) => {
+const login = async (req, res) => {
   const sequelize = new Sequelize(config.development);
 
   try {
@@ -97,19 +95,21 @@ const signin = async (req, res) => {
       return res.status(response.code).json(response);
     }
 
+    console.log(account);
+
     const token = await jwt.sign(
       { payload: { userId: account.user.userId } },
-      "IniSecredKey"
+      "M1bSh0CA0W"
     );
+
+    res.cookie("token", token, {
+      maxAge: 360000,
+    });
 
     const response = {
       code: 200,
       status: "OK",
-      message: "User has been successfully logged in",
-      data: {
-        token: token,
-        user: account.user,
-      },
+      message: "User loged in",
     };
 
     return res.status(response.code).json(response);
@@ -128,3 +128,5 @@ const signin = async (req, res) => {
     await sequelize.close();
   }
 };
+
+module.exports = { register, login };
