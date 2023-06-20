@@ -20,7 +20,7 @@ router.get('/account', async (req, res) => {
 });
 
 // POST /account - Create a new account
-router.post('/post', async (req, res) => {
+router.post('/account/post', async (req, res) => {
   const { accountId, username, email, password, createdAt, updatedAt } = req.body;
   try {
     const newAccount = await account.create({ accountId, username, email, password, createdAt, updatedAt }); // Create a new account in the database
@@ -32,7 +32,7 @@ router.post('/post', async (req, res) => {
 });
 
 // PUT /account/:id - Update account details
-router.put('/:id', async (req, res) => {
+router.put('/account/:id', async (req, res) => {
   const accountId = req.params.id;
   const { username, email, password } = req.body;
 
