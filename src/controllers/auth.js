@@ -102,7 +102,7 @@ const login = async (req, res) => {
       "M1bSh0CA0W"
     );
 
-    res.cookie("token", token, {
+    res.cookie("animuAuthenticatedUser", token, {
       maxAge: 360000,
     });
 
@@ -130,4 +130,30 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login };
+const logout = async (req, res) => {
+  try {
+    const response = {
+      code: 200,
+      status: 'Ok',
+      message: 'Logout success'
+    }
+
+    // clear cookie
+    res.clearCookie('animuAuthenticatedUser')
+
+    return res.status(200).json(response)
+  } catch (error) {
+    error.code = 500
+
+    const response = {
+      code: error.code,
+      status: 'Internal Server Error',
+      message: error.message
+    }
+
+    console.error(response)
+    return res.status(response.code).json(response)
+  }
+}
+
+module.exports = { register, login, logout };

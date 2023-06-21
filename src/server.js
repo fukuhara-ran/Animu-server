@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const port = 3000;
 const public = require("./routes/public")
+const protected = require("./routes/protected")
 const { verifyToken } = require("./middleware/verifyToken");
 const config = require("../config/config.json");
 
@@ -13,7 +14,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get("/test", (req, res) => {
-  res.cookie("token",{
+  res.cookie("animuAuthenticatedUser",{
     maxAge: 360000,
   });
   console.log("Cookies: ", req.cookies);
@@ -21,6 +22,7 @@ app.get("/test", (req, res) => {
 });
 
 app.use("/", public);
+app.use("/", protected);
 app.use(verifyToken);
 
 app.listen(port, () => {
