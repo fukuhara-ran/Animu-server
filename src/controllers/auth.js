@@ -56,14 +56,14 @@ const login = async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    const account = await account.findOne({
+    const Account = await account.findOne({
       where: {
         username: username,
       },
       include: user,
     });
 
-    if (!account) {
+    if (!Account) {
       const error = new Error("Account not found");
       error.code = 404;
       error.status = "Not Found";
@@ -78,7 +78,7 @@ const login = async (req, res) => {
     }
 
     const isPasswordValid = () => {
-      return password === account.password ? true : false;
+      return password === Account.password ? true : false;
     };
 
     if (!isPasswordValid) {
@@ -95,10 +95,10 @@ const login = async (req, res) => {
       return res.status(response.code).json(response);
     }
 
-    console.log(account);
+    console.log(Account);
 
     const token = jwt.sign(
-      { payload: { userId: account.user.userId } },
+      { payload: { userId: Account.user.userId } },
       "M1bSh0CA0W"
     );
 
@@ -116,6 +116,7 @@ const login = async (req, res) => {
   } catch (error) {
     error.code = 500;
     error.status = "Internal Server Error";
+    console.log(error);
 
     const response = {
       code: error.code,
