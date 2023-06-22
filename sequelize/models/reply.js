@@ -1,15 +1,24 @@
 "use strict";
-
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class comment extends Model {
+  class reply extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.user = comment.belongsTo(models.user, {
+      this.user = reply.belongsTo(models.user, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+        foreignKey: {
+          name: "userId",
+          type: DataTypes.UUID,
+          allowNull: false,
+        },
+      });
+
+      this.comment = reply.belongsTo(models.comment, {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
         foreignKey: {
@@ -20,9 +29,9 @@ module.exports = (sequelize, DataTypes) => {
       });
     }
   }
-  comment.init(
+  reply.init(
     {
-      commentId: {
+      replyId: {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
         allowNull: true,
@@ -36,19 +45,17 @@ module.exports = (sequelize, DataTypes) => {
       },
       createdAt: {
         allowNull: false,
-        type: DataTypes.DATE,
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: DataTypes.DATE,
+        type: Sequelize.DATE,
       },
     },
     {
       sequelize,
-      modelName: "comment",
-      tableName: "comments",
-      underscored: true,
+      modelName: "reply",
     }
   );
-  return comment;
+  return reply;
 };
