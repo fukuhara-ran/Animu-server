@@ -12,7 +12,7 @@ const register = async (req, res) => {
     // create new user
     const newAccount = await sequelize.transaction(
       { isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED },
-      async () => {
+      async (t) => {
         return await account.create(
           {
             username: username,
@@ -22,7 +22,7 @@ const register = async (req, res) => {
               name: username,
             },
           },
-          { include: user }
+          { transaction: t, include: user }
         );
       }
     );

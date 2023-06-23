@@ -29,6 +29,16 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: true
         }
       })
+
+      this.reply = user.hasMany(models.reply, {
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+        foreignKey: {
+          name: 'userId',
+          type: DataTypes.UUID,
+          allowNull: true
+        }
+      })
     }
   }
   user.init({

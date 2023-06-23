@@ -17,7 +17,17 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.UUID,
           allowNull: false,
         },
-      });
+      })
+
+      this.reply = comment.hasMany(models.reply, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+        foreignKey: {
+          name: "commentId",
+          type: DataTypes.UUID,
+          allowNull: false,
+        }
+      })
     }
   }
   comment.init(
