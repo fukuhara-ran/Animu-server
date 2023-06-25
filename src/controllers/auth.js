@@ -1,10 +1,14 @@
 const { Sequelize, Transaction } = require("sequelize");
 const { account, user } = require("../../sequelize/models");
-const config = require("../../config/config.json");
+// const config = require("../../config/config.json");
 const jwt = require("jsonwebtoken");
+const dbConfig = require("../../sequelize/config/config")[
+  process.env.NODE_ENV || "development"
+];
 
 const register = async (req, res) => {
-  const sequelize = new Sequelize(config.development);
+  // const sequelize = new Sequelize(config.development);
+  const sequelize = new Sequelize(dbConfig);
 
   try {
     const { username, email, password } = req.body;
@@ -51,7 +55,8 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const sequelize = new Sequelize(config.development);
+  // const sequelize = new Sequelize(config.development);
+  const sequelize = new Sequelize(dbConfig);
 
   try {
     const { username, password } = req.body;
@@ -134,26 +139,26 @@ const logout = async (req, res) => {
   try {
     const response = {
       code: 200,
-      status: 'Ok',
-      message: 'Logout success'
-    }
+      status: "Ok",
+      message: "Logout success",
+    };
 
     // clear cookie
-    res.clearCookie('animuAuthenticatedUser')
+    res.clearCookie("animuAuthenticatedUser");
 
-    return res.status(200).json(response)
+    return res.status(200).json(response);
   } catch (error) {
-    error.code = 500
+    error.code = 500;
 
     const response = {
       code: error.code,
-      status: 'Internal Server Error',
-      message: error.message
-    }
+      status: "Internal Server Error",
+      message: error.message,
+    };
 
-    console.error(response)
-    return res.status(response.code).json(response)
+    console.error(response);
+    return res.status(response.code).json(response);
   }
-}
+};
 
 module.exports = { register, login, logout };

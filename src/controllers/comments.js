@@ -1,9 +1,13 @@
 const { Sequelize, Transaction } = require("sequelize");
 const { comment, reply } = require("../../sequelize/models");
-const config = require("../../config/config.json");
+// const config = require("../../config/config.json");
+const dbConfig = require("../../sequelize/config/config")[
+  process.env.NODE_ENV || "development"
+];
 
 const createComment = async (req, res) => {
-  const sequelize = new Sequelize(config.development);
+  // const sequelize = new Sequelize(config.development);
+  const sequelize = new Sequelize(dbConfig);
 
   try {
     const { content, userId } = req.body;
@@ -16,7 +20,7 @@ const createComment = async (req, res) => {
             content: content,
             userId: userId,
           },
-          {transaction: t}
+          { transaction: t }
         );
       }
     );
@@ -45,7 +49,8 @@ const createComment = async (req, res) => {
 };
 
 const createReply = async (req, res) => {
-  const sequelize = new Sequelize(config.development);
+  // const sequelize = new Sequelize(config.development);
+  const sequelize = new Sequelize(dbConfig);
 
   try {
     const { content, commentId, userId } = req.body;
@@ -59,7 +64,7 @@ const createReply = async (req, res) => {
             commentId: commentId,
             userId: userId,
           },
-          {transaction: t}
+          { transaction: t }
         );
       }
     );
@@ -80,8 +85,7 @@ const createReply = async (req, res) => {
       status: error.status,
       message: error.message,
     };
-    console.log(error);
-
+    // console.log(error);
 
     return res.status(response.code).json(response);
   } finally {
@@ -89,4 +93,4 @@ const createReply = async (req, res) => {
   }
 };
 
-module.exports = {createComment, createReply}
+module.exports = { createComment, createReply };
