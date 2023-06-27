@@ -1,14 +1,14 @@
-const { Sequelize } = require("sequelize");
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const app = express();
-const port = 3000;
+const dbConfig = require("../config/config")[
+  process.env.NODE_ENV || "development"
+];
+require('dotenv').config();
+const port = process.env.EXPRESS_PORT; 
 const public = require("./routes/public")
 const protected = require("./routes/protected")
 const { verifyToken } = require("./middleware/verifyToken");
-const config = require("../config/config.json");
-
-const sequelize = new Sequelize(config.development);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -28,14 +28,3 @@ app.use(verifyToken);
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
-
-async function testDatabaseConnection() {
-  try {
-    await sequelize.authenticate();
-    console.log("Database connection has been established successfully.");
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
-}
-
-testDatabaseConnection();

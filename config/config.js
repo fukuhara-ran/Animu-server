@@ -21,5 +21,5 @@ module.exports = {
     database: process.env.DB_DATABASE,
     dialect: process.env.DB_DIALECT,
     host: process.env.HOSTNAME,
-  },
+  }
 };

@@ -1,7 +1,7 @@
 const { Sequelize, Transaction, json } = require("sequelize");
 const { user } = require("../../sequelize/models");
 // const config = require("../../config/config.json");
-const dbConfig = require("../../sequelize/config/config")[
+const dbConfig = require("../../config/config")[
   process.env.NODE_ENV || "development"
 ];
 
