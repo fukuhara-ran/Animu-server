@@ -1,0 +1,219 @@
+openapi: 3.0.0
+info:
+  title: Animu Public API
+  version: 1.0.0
+
+  # Path to link the API
+paths:
+  /comments/create:
+    post:
+      summary: Create a Comment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/comment"
+      responses:
+        "201":
+          description: Comment created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/comment"
+        "400":
+          description: Invalid request
+        "404":
+          description: Post not found
+        "500":
+          description: Internal server error
+
+  /reply/create:
+    post:
+      summary: Create a reply
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/reply'
+      responses:
+        '201':
+          description: Comment created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/reply'
+        '400':
+          description: Invalid request
+        '404':
+          description: Comment not found
+        '500':
+          description: Internal server error
+
+  /users/{user_id}:
+    get:
+      summary: Get User Details
+      parameters:
+        - in: path
+          name: user_id
+          schema:
+            type: string
+          required: true
+          description: The ID of the user
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+        "404":
+          description: User not found
+
+  /users/update:
+    put:
+      summary: Update User Details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user"
+      responses:
+        "200":
+          description: User details updated successfully
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized
+        "404":
+          description: User not found
+        "500":
+          description: Internal server error
+  /regsiter:
+    post:
+      summary: User Register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user"
+      responses:
+        "201":
+          description: User created successfully
+        "400":
+          description: Invalid request
+        "500":
+          description: Internal server error
+
+  /login:
+    post:
+      summary: User Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/user"
+      responses:
+        "200":
+          description: User authenticated successfully
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal server error
+
+  /account/update:
+    put:
+      summary: Change Password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/account"
+      responses:
+        "200":
+          description: Password changed successfully
+        "400":
+          description: Invalid request
+        "401":
+          description: Unauthorized
+        "404":
+          description: User not found
+        "500":
+          description: Internal server error
+
+# Components inside API
+components:
+  schemas:
+    account:
+      type: object
+      properties:
+        accountId:
+          type: string
+          format: uuid
+        username:
+          type: string
+          maxLength: 32
+        email:
+          type: string
+          maxLength: 32
+        password:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    user:
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+        name:
+          type: string
+          maxLength: 32
+        about:
+          type: string
+          maxLength: 32
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    comment:
+      type: object
+      properties:
+        commentId:
+          type: string
+          format: uuid
+        content:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    reply:
+      type: object
+      properties:
+        replyId:
+          type: string
+          format: uuid
+        content:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
