@@ -1,4 +1,4 @@
-const { Sequelize, Transaction } = require("sequelize");
+const { Sequelize, Transaction, ValidationError, UniqueConstraintError } = require("sequelize");
 const { account, user } = require("../../sequelize/models");
 // const config = require("../../config/config.json");
 const jwt = require("jsonwebtoken");
@@ -11,7 +11,17 @@ const register = async (req, res) => {
   const sequelize = new Sequelize(dbConfig);
 
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, passwordConfirmation } = req.body;
+    const { error: accountError } = account.validate({
+      email,
+      password,
+      passwordConfirmation
+    })
+    const { error: userError } = user.validate({ username })
+
+    if ((accountError || userError) !== undefined) {
+      throw new ValidationError((accountError || userError).message)
+    }
 
     // create new user
     const newAccount = await sequelize.transaction(
@@ -39,8 +49,16 @@ const register = async (req, res) => {
 
     return res.status(201).json(response);
   } catch (error) {
-    error.code = 500;
-    error.status = "Internal Server Error";
+    if (error instanceof UniqueConstraintError) {
+      error.code = 409
+      error.status = 'Conflict'
+    } else if (error instanceof ValidationError) {
+      error.code = 400
+      error.status = 'Bad Request'
+    } else {
+      error.code = 500
+      error.status = 'Internal Server Error'
+    }
 
     const response = {
       code: error.code,

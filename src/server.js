@@ -1,9 +1,6 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const app = express();
-const dbConfig = require("../config/config")[
-  process.env.NODE_ENV || "development"
-];
 require('dotenv').config();
 const port = process.env.EXPRESS_PORT; 
 const public = require("./routes/public")
