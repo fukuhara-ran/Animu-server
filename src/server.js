@@ -6,7 +6,9 @@ const port = process.env.EXPRESS_PORT;
 const public = require("./routes/public")
 const protected = require("./routes/protected")
 const { verifyToken } = require("./middleware/verifyToken");
+const cors = require("cors");
 
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }))
 app.use(express.json());
 app.use(cookieParser());
 
