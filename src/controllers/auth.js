@@ -47,6 +47,7 @@ const register = async (req, res) => {
       status: error.status,
       message: error.message,
     };
+    console.log(error);
 
     return res.status(response.code).json(response);
   } finally {
@@ -104,11 +105,11 @@ const login = async (req, res) => {
 
     const token = jwt.sign(
       { payload: { userId: Account.user.userId } },
-      "M1bSh0CA0W"
+      process.env.TOKEN_EXPIRES
     );
 
     res.cookie("animuAuthenticatedUser", token, {
-      maxAge: 360000,
+      maxAge: process.env.COOKIE_EXPIRES,
     });
 
     const response = {

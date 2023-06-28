@@ -1,7 +1,7 @@
+require('dotenv').config();
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const app = express();
-require('dotenv').config();
 const port = process.env.EXPRESS_PORT; 
 const public = require("./routes/public")
 const protected = require("./routes/protected")
@@ -12,7 +12,7 @@ app.use(cookieParser());
 
 app.get("/test", (req, res) => {
   res.cookie("animuAuthenticatedUser",{
-    maxAge: 360000,
+    maxAge: process.env.COOKIE_EXPIRES,
   });
   console.log("Cookies: ", req.cookies);
   res.send(req.cookies);
