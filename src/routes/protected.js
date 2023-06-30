@@ -5,8 +5,8 @@ const { updateUserInfo, getProfile } = require("../controllers/profile")
 
 const routes = express.Router();
 
-routes.post("/update", updateUserInfo);
 routes.post("/getinfo", getProfile);
+routes.post("/update", updateUserInfo);
 
 routes.post("/comment", createComment);
 routes.post("/reply", createReply);

@@ -2,12 +2,13 @@ const jwt = require("jsonwebtoken");
 
 //verify token from cookies
 const verifyToken = (req, res, next) => {
-  const { token } = req.cookies;
+  const { animuAuthenticatedUser } = req.cookies;
 
   console.log("Cookies: ", req.cookies);
+  console.log(animuAuthenticatedUser);
 
   //Kalo tokennya ga ada
-  if (!token) {
+  if (!animuAuthenticatedUser) {
     const error = new Error("Token not found");
     error.code = 401;
     error.status = "Unauthorized";
@@ -17,13 +18,14 @@ const verifyToken = (req, res, next) => {
       status: error.status,
       message: error.message,
     };
+    // console.log(error);
 
     return res.status(response.code).json(response);
   }
 
   //Kalo tokennya ada
   try {
-    const decoded = jwt.verify(token, "M1bSh0CA0W");
+    const decoded = jwt.verify(animuAuthenticatedUser, process.env.JWT_SECRET);
     req.userId = decoded;
     next();
   } catch (error) {

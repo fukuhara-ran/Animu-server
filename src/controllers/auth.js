@@ -104,12 +104,17 @@ const login = async (req, res) => {
     console.log(Account);
 
     const token = jwt.sign(
-      { payload: { userId: Account.user.userId } },
-      process.env.TOKEN_EXPIRES
+      { payload: { userId: account.user.userId, signedTime: Date.now() } },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.TOKEN_EXPIRES,
+      }
     );
 
     res.cookie("animuAuthenticatedUser", token, {
       maxAge: process.env.COOKIE_EXPIRES,
+      sameSite: "none",
+      secure: true,
     });
 
     const response = {

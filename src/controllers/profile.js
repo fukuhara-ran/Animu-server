@@ -58,7 +58,7 @@ const sequelize = new Sequelize(dbConfig);
   try {
     const { userId } = req.body;
 
-    const User = await user.findOne({ where: { userId } });
+    const User = await user.findOne({ where: { userId : userId } });
 
     if (!User) {
       throw new Error("User not found");
@@ -80,6 +80,7 @@ const sequelize = new Sequelize(dbConfig);
       status: error.status,
       message: error.message,
     };
+    console.log(error);
 
     return res.status(response.code).json(response);
   } finally {
