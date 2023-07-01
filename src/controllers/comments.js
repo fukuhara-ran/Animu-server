@@ -10,13 +10,14 @@ const createComment = async (req, res) => {
   const sequelize = new Sequelize(dbConfig);
 
   try {
-    const { content, userId } = req.body;
+    const { title, content, userId } = req.body;
 
     const newComment = await sequelize.transaction(
       { isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED },
       async (t) => {
         return await comment.create(
           {
+            title: title,
             content: content,
             userId: userId,
           },

@@ -39,6 +39,11 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         unique: true,
       },
+      title: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true,
+      },
       content: {
         type: DataTypes.STRING,
         allowNull: true,

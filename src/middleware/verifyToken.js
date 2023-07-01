@@ -4,8 +4,8 @@ const jwt = require("jsonwebtoken");
 const verifyToken = (req, res, next) => {
   const { animuAuthenticatedUser } = req.cookies;
 
-  console.log("Cookies: ", req.cookies);
-  console.log(animuAuthenticatedUser);
+  //console.log("Cookies: ", req.cookies);
+  console.log(`Ini kue: ${animuAuthenticatedUser}`);
 
   //Kalo tokennya ga ada
   if (!animuAuthenticatedUser) {
@@ -26,7 +26,8 @@ const verifyToken = (req, res, next) => {
   //Kalo tokennya ada
   try {
     const decoded = jwt.verify(animuAuthenticatedUser, process.env.JWT_SECRET);
-    req.userId = decoded;
+    req.userId = decoded.payload.userId;
+    console.log("test", req.userId);
     next();
   } catch (error) {
     error.code = 401;

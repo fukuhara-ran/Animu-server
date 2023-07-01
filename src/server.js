@@ -11,6 +11,10 @@ const cors = require("cors");
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }))
 app.use(express.json());
 app.use(cookieParser());
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', 'application/json')
+  next()
+})
 
 app.get("/test", (req, res) => {
   res.cookie("sfsf","animuAuthenticatedUser",{

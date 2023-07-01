@@ -11,6 +11,12 @@ module.exports = {
         defaultValue: Sequelize.UUIDV4,
         field: 'comment_id'
       },
+      title: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        unique: true,
+        field: 'title'
+      },
       content: {
         type: Sequelize.STRING,
         allowNull: true,

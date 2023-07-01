@@ -56,8 +56,8 @@ const getProfile = async (req, res) => {
 const sequelize = new Sequelize(dbConfig);
 
   try {
-    const { userId } = req.body;
-
+    const { userId } = req;
+    // console.log(`Ini sudah profile bang: ${req.userId}`);
     const User = await user.findOne({ where: { userId : userId } });
 
     if (!User) {

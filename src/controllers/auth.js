@@ -47,7 +47,7 @@ const register = async (req, res) => {
       status: error.status,
       message: error.message,
     };
-    console.log(error);
+    // console.log(error);
 
     return res.status(response.code).json(response);
   } finally {
@@ -101,10 +101,12 @@ const login = async (req, res) => {
       return res.status(response.code).json(response);
     }
 
-    console.log(Account);
+    // console.log(Account);
+// console.log(Account.user.userId);
+
 
     const token = jwt.sign(
-      { payload: { userId: account.user.userId, signedTime: Date.now() } },
+      { payload: { userId: Account.user.userId } },
       process.env.JWT_SECRET,
       {
         expiresIn: process.env.TOKEN_EXPIRES,
@@ -127,7 +129,7 @@ const login = async (req, res) => {
   } catch (error) {
     error.code = 500;
     error.status = "Internal Server Error";
-    console.log(error);
+    // console.log(error);
 
     const response = {
       code: error.code,
