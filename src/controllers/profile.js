@@ -10,7 +10,9 @@ const updateUserInfo = async (req, res) => {
 const sequelize = new Sequelize(dbConfig);
 
   try {
-    const { userId, name, gender, about } = req.body;
+    const { userId } = req;
+    const { name, gender, about } = req.body;
+    // console.log(`Ini sudah profile bang: ${req.userId}`);
 
     const updatedUser = await sequelize.transaction(
       { isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED },
@@ -26,7 +28,6 @@ const sequelize = new Sequelize(dbConfig);
         );
       }
     );
-
     const response = {
       code: 200,
       status: "Ok",
@@ -43,6 +44,7 @@ const sequelize = new Sequelize(dbConfig);
       status: error.status,
       message: error.message,
     };
+    console.log(error);
 
     return res.status(response.code).json(response);
   } finally {

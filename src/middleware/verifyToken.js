@@ -27,7 +27,7 @@ const verifyToken = (req, res, next) => {
   try {
     const decoded = jwt.verify(animuAuthenticatedUser, process.env.JWT_SECRET);
     req.userId = decoded.payload.userId;
-    console.log("test", req.userId);
+    // console.log("test", req.userId);
     next();
   } catch (error) {
     error.code = 401;
