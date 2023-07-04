@@ -12,7 +12,7 @@ const sequelize = new Sequelize(dbConfig);
   try {
     const { userId } = req;
     const { name, gender, about } = req.body;
-    // console.log(`Ini sudah profile bang: ${req.userId}`);
+    console.dir(`Ini sudah profile bang: ${req}`);
 
     const updatedUser = await sequelize.transaction(
       { isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED },
