@@ -18,7 +18,7 @@ module.exports = {
         field: 'name'
       },
       gender: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.STRING(15),
         allowNull: true,
         unique: false,
         field: 'gender'

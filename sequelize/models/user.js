@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: false,
     },
     gender: {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.STRING(15),
       allowNull: true,
       unique: false,
     },
