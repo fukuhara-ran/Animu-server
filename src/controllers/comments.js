@@ -1,5 +1,5 @@
 const { Sequelize, Transaction } = require("sequelize");
-const { comment, reply } = require("../../sequelize/models");
+const { comment, reply, user } = require("../../sequelize/models");
 // const config = require("../../config/config.json");
 const dbConfig = require("../../config/config")[
   process.env.NODE_ENV || "development"
@@ -10,7 +10,8 @@ const createComment = async (req, res) => {
   const sequelize = new Sequelize(dbConfig);
 
   try {
-    const { title, content, userId } = req.body;
+    const { userId } = req;
+    const { title, content } = req.body;
 
     const newComment = await sequelize.transaction(
       { isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED },
@@ -36,16 +37,47 @@ const createComment = async (req, res) => {
   } catch (error) {
     error.code = 500;
     error.status = "Internal Server Error";
-
     const response = {
       code: error.code,
       status: error.status,
       message: error.message,
     };
-
     return res.status(response.code).json(response);
   } finally {
     await sequelize.close();
+  }
+};
+
+const getComment = async (req, res) => {
+  try {
+    const Comment = await comment.findAll(
+      {
+        order: [["created_at", "DESC"]],
+        include: { model: user },
+      }
+    );
+
+    if (Comment.length === 0) {
+      throw new Error("No comment found");
+    }
+
+    const response = {
+      code: 200,
+      status: "Ok",
+      data: Comment,
+    };
+
+    return res.status(200).json(response);
+  } catch (error) {
+    const response = {
+      code: 404,
+      status: "Not Found",
+      message: error.message || "No comments found",
+    };
+    console.log(error);
+    console.log(response);
+
+    return res.status(response.code).json(response);
   }
 };
 
@@ -94,4 +126,4 @@ const createReply = async (req, res) => {
   }
 };
 
-module.exports = { createComment, createReply };
+module.exports = { createComment, createReply, getComment };

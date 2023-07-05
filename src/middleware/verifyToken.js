@@ -5,7 +5,7 @@ const verifyToken = (req, res, next) => {
   const { animuAuthenticatedUser } = req.cookies;
 
   //console.log("Cookies: ", req.cookies);
-  console.log(`Ini kue: ${animuAuthenticatedUser}`);
+  // console.log(`Ini kue: ${animuAuthenticatedUser}`);
 
   //Kalo tokennya ga ada
   if (!animuAuthenticatedUser) {

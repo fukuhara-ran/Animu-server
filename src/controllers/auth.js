@@ -66,7 +66,7 @@ const login = async (req, res) => {
       where: {
         username: username,
       },
-      include: user,
+      include: user
     });
 
     if (!Account) {
