@@ -50,12 +50,10 @@ const createComment = async (req, res) => {
 
 const getComment = async (req, res) => {
   try {
-    const Comment = await comment.findAll(
-      {
-        order: [["created_at", "DESC"]],
-        include: { model: user },
-      }
-    );
+    const Comment = await comment.findAll({
+      order: [["created_at", "DESC"]],
+      include: { model: user },
+    });
 
     if (Comment.length === 0) {
       throw new Error("No comment found");
@@ -126,4 +124,77 @@ const createReply = async (req, res) => {
   }
 };
 
-module.exports = { createComment, createReply, getComment };
+const getReply = async (req, res) => {
+  try {
+    const { commentId } = req.body;
+
+    const Reply = await reply.findAll({
+      where: { commentId: commentId },
+      order: [["created_at", "DESC"]],
+      include: { model: user, comment },
+    });
+
+    if (Reply.length === 0) {
+      throw new Error("No reply found");
+    }
+
+    const response = {
+      code: 200,
+      status: "Ok",
+      data: Reply,
+    };
+
+    return res.status(200).json(response);
+  } catch (error) {
+    const response = {
+      code: 404,
+      status: "Not Found",
+      message: error.message || "No comments found",
+    };
+    console.log(error);
+    console.log(response);
+
+    return res.status(response.code).json(response);
+  }
+};
+
+const getCommentyById = async (req, res) => {
+  const sequelize = new Sequelize(dbConfig);
+
+  try {
+    const { commentId } = req.body;
+
+    const Comment = await comment.findOne({
+      where: { commentId: commentId },
+      include: {
+        model: reply
+      },
+    });
+
+    const response = {
+      code: 200,
+      status: "Ok",
+      message: "Comment has been successfully retrieved",
+      data: Comment,
+    };
+
+    return res.status(200).json(response);
+  } catch (error) {
+    error.code = 500;
+    error.status = "Internal Server Error";
+
+    const response = {
+      code: error.code,
+      status: error.status,
+      message: error.message,
+    };
+    console.log(error);
+
+    return res.status(response.code).json(response);
+  } finally {
+    await sequelize.close();
+  }
+};
+
+
+module.exports = { createComment, createReply, getComment, getReply, getCommentyById };

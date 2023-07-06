@@ -52,9 +52,7 @@ const sequelize = new Sequelize(dbConfig);
   }
 };
 
-//const getProfile
 const getProfile = async (req, res) => {
-//   const sequelize = new Sequelize(config.development);
 const sequelize = new Sequelize(dbConfig);
 
   try {

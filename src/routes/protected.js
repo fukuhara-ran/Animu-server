@@ -10,7 +10,6 @@ routes.post("/update", updateUserInfo);
 
 routes.post("/comment", createComment);
 routes.post("/reply", createReply);
-routes.post("/komen", getComment)
 
 routes.post("/logout", logout);
 
